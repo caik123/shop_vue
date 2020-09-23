@@ -4,3 +4,7 @@ html,body,#app{
   margin: 0px;
   padding: 0px;
 }
+.el-breadcrumb{
+  font-size: 12px;
+  margin-bottom: 15px;
+}

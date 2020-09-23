@@ -14,7 +14,11 @@
       >
         <!--用户名-->
         <el-form-item prop="username">
-          <el-input v-model="loginForm.username" prefix-icon="el-icon-user" placeholder="请输入用户名"></el-input>
+          <el-input
+            v-model="loginForm.username"
+            prefix-icon="el-icon-user"
+            placeholder="请输入用户名"
+          ></el-input>
         </el-form-item>
         <!--密码-->
         <el-form-item prop="password">
@@ -78,13 +82,13 @@ export default {
         const { data: res } = await this.$http.post("login", this.loginForm);
         console.log(res);
         if (res.meta.status !== 200) {
-         return this.$message.error('登录失败');
+          return this.$message.error("登录失败");
         }
         this.$message.success("登录成功");
         //1、登录成功后将token存入sessionStorage
         //2、编程式路由跳转
-        window.sessionStorage.setItem("token",res.data.token)
-        this.$router.push("/home")
+        window.sessionStorage.setItem("token", res.data.token);
+        this.$router.push("/home");
       });
     },
   },
