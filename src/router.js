@@ -7,6 +7,7 @@ import Users from './components/user/Users'
 import Right from './components/permission/Right.vue'
 import Roles from './components/permission/Roles.vue'
 import GoodClassify from './components/goods/GoodClassify.vue'
+import Params from './components/goods/Params.vue'
 
 Vue.use(Router)
 
@@ -23,7 +24,8 @@ const router = new Router({
         { path: '/users', component: Users },
         { path: '/rights', component: Right },
         { path: '/roles', component: Roles },
-        { path: '/categories', component: GoodClassify }
+        { path: '/categories', component: GoodClassify },
+        { path: '/params', component: Params }
       ]
     }
   ]

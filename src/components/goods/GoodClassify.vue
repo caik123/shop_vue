@@ -204,6 +204,7 @@ export default {
       this.$http
         .get("categories", { params: this.queryCatelistParams })
         .then(({ data: res }) => {
+          console.log(res)
           if (res.meta.status !== 200) {
             return this.$message.error("获取商品分类列表失败");
           }
