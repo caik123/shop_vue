@@ -87,14 +87,12 @@ export default {
     //从服务器获取侧边栏数据
     async getMenuList() {
       const { data: res } = await this.$http.get("menus");
-      console.log(res);
       if (res.meta.status !== 200)
         return this.$message.error("获取左侧菜单列表失败");
       this.menusList = res.data;
     },
     //点击折叠侧边栏
     toggleClick() {
-      console.log("toggleClick");
       this.isCollapse = !this.isCollapse;
     },
     //点击侧边栏
