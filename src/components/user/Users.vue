@@ -29,8 +29,9 @@
         </el-col>
       </el-row>
       <!--用户列表table-->
-      <el-table :data="userlist" style="width: 100%" border stripe>
-        <el-table-column type="index"> </el-table-column>
+      <el-table :data="userlist" border stripe>
+        <el-table-column type="index" label="序号" width="70px">
+        </el-table-column>
         <el-table-column prop="username" label="姓名"> </el-table-column>
         <el-table-column prop="email" label="邮箱"> </el-table-column>
         <el-table-column prop="mobile" label="电话"> </el-table-column>
@@ -276,19 +277,18 @@ export default {
       const { data: res } = await this.$http.get("users", {
         params: this.userParams,
       });
-      console.log(res);
       if (res.meta.status != 200) {
         return this.$message.error(res.meta.msg);
       }
       this.userlist = res.data.users;
       this.total = res.data.total;
     },
-    //pageSize 改变时会触发
+    //pagesize 改变时会触发，一页显示1行、5行、10行数据
     handleSizeChange(newPagesize) {
       this.userParams.pagesize = newPagesize;
       this.getUserList();
     },
-    //currentPage 改变时会触发
+    //currentPage 改变时会触发，点击上、下一页或者具体第3页等
     handleCurrentChange(newPagenum) {
       this.userParams.pagenum = newPagenum;
       this.getUserList();
@@ -298,14 +298,13 @@ export default {
       const { data: res } = await this.$http.put(
         `users/${userInfo.id}/state/${userInfo.mg_state}`
       );
-      console.log(res);
       if (res.meta.status != 200) {
         userInfo.mg_state = !userInfo.mg_state;
         return this.$message.error("修改用户状态失败");
       }
       return this.$message.success("修改用户状态成功");
     },
-    //关闭对话框事件
+    //关闭对话框事件，清空form上的数据，不然下次点击进来上传输入的数据仍然存在
     dialogClose() {
       this.$refs.addFormRef.resetFields();
     },
@@ -314,7 +313,6 @@ export default {
       this.$refs.addFormRef.validate(async (valid) => {
         if (!valid) return;
         const { data: res } = await this.$http.post("users", this.addForm);
-        console.log(res);
         if (res.meta.status != 201) {
           return this.$message.error("添加用户失败");
         }
@@ -323,10 +321,9 @@ export default {
         this.addUserDialogVisible = false;
       });
     },
-    //显示编辑对话框
+    //点击按钮显示编辑对话框
     async editDialogShow(id) {
       const { data: res } = await this.$http.get("users/" + id);
-      console.log(res);
       if (res.meta.status != 200) {
         return this.$message.error("获取用户数据失败");
       }
@@ -337,7 +334,6 @@ export default {
     //编辑用户
     editUser() {
       this.$refs.editFormRef.validate(async (valid) => {
-        console.log(valid);
         if (!valid) return;
         const { data: res } = await this.$http.put(
           "users/" + this.editForm.id,
@@ -403,7 +399,6 @@ export default {
           this.$http
             .get("roles/" + this.userInfo.rid)
             .then(({ data: res }) => {
-              console.log(res);
               if (res.meta.status !== 200) {
                 return this.$message.error("获取用户角色失败");
               }

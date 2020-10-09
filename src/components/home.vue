@@ -59,8 +59,9 @@
 export default {
   data() {
     return {
+      //从网络获取的侧边栏列表
       menusList: [],
-      //一级图标
+      //一级图标对象
       iconObj: {
         125: "el-icon-user-solid",
         103: "el-icon-platform-eleme",
@@ -76,6 +77,8 @@ export default {
   },
   created() {
     this.getMenuList();
+    //点击二级侧边栏的时候将激活的路径保存在sessionStorage中，
+    //刷新页面的时候从sessionStorage中获取路径，以保证刷新后还是在刷新前的页面
     this.activePath = window.sessionStorage.getItem("activePath");
   },
   methods: {
@@ -125,7 +128,7 @@ export default {
 }
 .el-aside {
   background-color: #333744;
-  border-right: none;
+  border-right: none; //选中后右边有1px的凸出部分，增加这个属性去除
 }
 .el-main {
   background-color: #eaedf1;
@@ -134,8 +137,9 @@ export default {
   background-color: #4a5064;
   color: #fff;
   font-size: 10px;
-  line-height: 24px;
+  line-height: 30px; //line-height表示每行文字所占的高度,height表示一行的高度
   text-align: center;
   letter-spacing: 0.2em;
+  cursor: pointer;
 }
 </style>

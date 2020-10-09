@@ -8,6 +8,10 @@ import Right from './components/permission/Right.vue'
 import Roles from './components/permission/Roles.vue'
 import GoodClassify from './components/goods/GoodClassify.vue'
 import Params from './components/goods/Params.vue'
+import GoodList from './components/goods/List.vue'
+import GoodAdd from './components/goods/Add.vue'
+import GoodEdit from './components/goods/Edit.vue'
+import OrderList from './components/orders/List.vue'
 
 Vue.use(Router)
 
@@ -25,7 +29,11 @@ const router = new Router({
         { path: '/rights', component: Right },
         { path: '/roles', component: Roles },
         { path: '/categories', component: GoodClassify },
-        { path: '/params', component: Params }
+        { path: '/params', component: Params },
+        { path: '/goods', component: GoodList },
+        { path: '/goods/add', component: GoodAdd },
+        { path: '/goods/edit', name: 'goodsEdit', component: GoodEdit },
+        { path: '/orders', component: OrderList }
       ]
     }
   ]
