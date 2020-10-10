@@ -7,7 +7,7 @@
     </el-breadcrumb>
     <el-card>
       <el-table :data="rightList" border stripe>
-        <el-table-column type="index"> </el-table-column>
+        <el-table-column type="index" label="序号" width="70px"> </el-table-column>
         <el-table-column prop="authName" label="权限名称"> </el-table-column>
         <el-table-column prop="path" label="路径"> </el-table-column>
         <el-table-column prop="level" label="权限等级">
