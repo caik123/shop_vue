@@ -3,15 +3,24 @@
     <!--页面头部-->
     <el-header>
       <div>
-        <img src="../assets/heima.png" alt="" />
+        <img
+          src="../assets/heima.png"
+          alt=""
+        />
         <span>电商管理系统</span>
       </div>
-      <el-button type="info" @click="logout">退出</el-button>
+      <el-button
+        type="info"
+        @click="logout"
+      >退出</el-button>
     </el-header>
     <el-container>
       <!--页面侧边栏部分-->
       <el-aside :width="isCollapse ? '64px' : '200px'">
-        <div class="collapse-btn" @click="toggleClick">|||</div>
+        <div
+          class="collapse-btn"
+          @click="toggleClick"
+        >|||</div>
         <el-menu
           background-color="#333744"
           text-color="#fff"
@@ -63,48 +72,48 @@ export default {
       menusList: [],
       //一级图标对象
       iconObj: {
-        125: "el-icon-user-solid",
-        103: "el-icon-platform-eleme",
-        101: "el-icon-s-goods",
-        102: "el-icon-s-order",
-        145: "el-icon-s-data",
+        125: 'el-icon-user-solid',
+        103: 'el-icon-platform-eleme',
+        101: 'el-icon-s-goods',
+        102: 'el-icon-s-order',
+        145: 'el-icon-s-data',
       },
       //是否折叠侧边栏
       isCollapse: false,
       //激活的侧边栏地址
-      activePath: "",
-    };
+      activePath: '',
+    }
   },
   created() {
-    this.getMenuList();
+    this.getMenuList()
     //点击二级侧边栏的时候将激活的路径保存在sessionStorage中，
     //刷新页面的时候从sessionStorage中获取路径，以保证刷新后还是在刷新前的页面
-    this.activePath = window.sessionStorage.getItem("activePath");
+    this.activePath = window.sessionStorage.getItem('activePath')
   },
   methods: {
     //点击退出主页
     logout() {
-      window.sessionStorage.clear();
-      this.$router.push("/login");
+      window.sessionStorage.clear()
+      this.$router.push('/login')
     },
     //从服务器获取侧边栏数据
     async getMenuList() {
-      const { data: res } = await this.$http.get("menus");
+      const { data: res } = await this.$http.get('menus')
       if (res.meta.status !== 200)
-        return this.$message.error("获取左侧菜单列表失败");
-      this.menusList = res.data;
+        return this.$message.error('获取左侧菜单列表失败')
+      this.menusList = res.data
     },
     //点击折叠侧边栏
     toggleClick() {
-      this.isCollapse = !this.isCollapse;
+      this.isCollapse = !this.isCollapse
     },
     //点击侧边栏
     clickMenu(activePath) {
-      window.sessionStorage.setItem("activePath", activePath);
-      this.activePath = activePath;
+      window.sessionStorage.setItem('activePath', activePath)
+      this.activePath = activePath
     },
   },
-};
+}
 </script>
 <style lang="less" scoped>
 .home-container {
