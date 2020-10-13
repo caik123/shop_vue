@@ -2,7 +2,10 @@
   <div class="login_container">
     <div class="login_box">
       <div class="avater_box">
-        <img src="../assets/logo.png" alt />
+        <img
+          src="../assets/logo.png"
+          alt
+        >
       </div>
       <!--登录表单区域-->
       <el-form
@@ -18,7 +21,7 @@
             v-model="loginForm.username"
             prefix-icon="el-icon-user"
             placeholder="请输入用户名"
-          ></el-input>
+          />
         </el-form-item>
         <!--密码-->
         <el-form-item prop="password">
@@ -27,12 +30,24 @@
             type="password"
             prefix-icon="el-icon-lock"
             placeholder="请输入密码"
-          ></el-input>
+            @keyup.enter.native="login"
+          />
         </el-form-item>
         <!--登录按钮-->
         <el-form-item class="btns">
-          <el-button type="primary" @click="login">登录</el-button>
-          <el-button type="info" @click="loginFormReset">重置</el-button>
+          <el-button
+            type="primary"
+            :loading="loading"
+            @click="login"
+          >
+            登录
+          </el-button>
+          <el-button
+            type="info"
+            @click="loginFormReset"
+          >
+            重置
+          </el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -41,58 +56,65 @@
 
 <script>
 export default {
-  data() {
+  data () {
     return {
       loginForm: {
-        username: "",
-        password: "",
+        username: '',
+        password: ''
       },
-      //表单验证规则
+      // 登录进度
+      loading: false,
+      // 表单验证规则
       loginFormRules: {
         username: [
-          { required: true, message: "请输入用户名", trigger: "blur" },
+          { required: true, message: '请输入用户名', trigger: 'blur' },
           {
             min: 3,
             max: 10,
-            message: "长度在 3 到 10 个字符",
-            trigger: "blur",
-          },
+            message: '长度在 3 到 10 个字符',
+            trigger: 'blur'
+          }
         ],
         password: [
-          { required: true, message: "请输入密码", trigger: "blur" },
+          { required: true, message: '请输入密码', trigger: 'blur' },
           {
             min: 6,
             max: 15,
-            message: "长度在 6 到 15 个字符",
-            trigger: "blur",
-          },
-        ],
-      },
-    };
+            message: '长度在 6 到 15 个字符',
+            trigger: 'blur'
+          }
+        ]
+      }
+    }
   },
   methods: {
-    //重置
-    loginFormReset() {
-      this.$refs.loginFormRef.resetFields();
+    // 重置
+    loginFormReset () {
+      this.$refs.loginFormRef.resetFields()
     },
-    //登录预校验
-    login() {
-      this.$refs.loginFormRef.validate(async (valide) => {
-        if (!valide) return;
-        const { data: res } = await this.$http.post("login", this.loginForm);
-        console.log(res);
-        if (res.meta.status !== 200) {
-          return this.$message.error("登录失败");
-        }
-        this.$message.success("登录成功");
-        //1、登录成功后将token存入sessionStorage
-        //2、编程式路由跳转
-        window.sessionStorage.setItem("token", res.data.token);
-        this.$router.push("/home");
-      });
-    },
-  },
-};
+    // 登录预校验
+    login () {
+      this.$refs.loginFormRef.validate((valide) => {
+        if (!valide) { return }
+        this.loading = true
+        this.$http.post('login', this.loginForm).then(({ data: res }) => {
+          this.loading = false
+          if (res.meta.status !== 200) {
+            return this.$message.error('登录失败')
+          }
+          this.$message.success('登录成功')
+          // 1、登录成功后将token存入sessionStorage
+          // 2、编程式路由跳转
+          window.sessionStorage.setItem('token', res.data.token)
+          this.$router.push('/home')
+        }).catch(error => {
+          this.loading = false
+          return error
+        })
+      })
+    }
+  }
+}
 </script>
 
 <style lang="less" scoped>
