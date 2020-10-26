@@ -8,13 +8,16 @@
     </el-breadcrumb>
     <el-card>
       <!--步骤条-->
-      <el-steps :active="activeIndex - 0" align-center>
-        <el-step title="基本信息"></el-step>
-        <el-step title="商品参数"></el-step>
-        <el-step title="商品属性"></el-step>
-        <el-step title="商品图片"></el-step>
-        <el-step title="商品内容"></el-step>
-        <el-step title="完成"></el-step>
+      <el-steps
+        :active="activeIndex - 0"
+        align-center
+      >
+        <el-step title="基本信息" />
+        <el-step title="商品参数" />
+        <el-step title="商品属性" />
+        <el-step title="商品图片" />
+        <el-step title="商品内容" />
+        <el-step title="完成" />
       </el-steps>
 
       <el-form
@@ -32,62 +35,97 @@
           :before-leave="beforeTabsLeave"
           @tab-click="tabClick"
         >
-          <el-tab-pane label="基本信息" name="0">
-            <el-form-item label="商品名称" prop="goods_name">
-              <el-input v-model="addForm.goods_name"></el-input>
+          <el-tab-pane
+            label="基本信息"
+            name="0"
+          >
+            <el-form-item
+              label="商品名称"
+              prop="goods_name"
+            >
+              <el-input v-model="addForm.goods_name" />
             </el-form-item>
-            <el-form-item label="商品价格" prop="goods_price">
-              <el-input v-model="addForm.goods_price" type="number"></el-input>
+            <el-form-item
+              label="商品价格"
+              prop="goods_price"
+            >
+              <el-input
+                v-model="addForm.goods_price"
+                type="number"
+              />
             </el-form-item>
-            <el-form-item label="商品重量" prop="goods_weight">
-              <el-input v-model="addForm.goods_weight" type="number"></el-input>
+            <el-form-item
+              label="商品重量"
+              prop="goods_weight"
+            >
+              <el-input
+                v-model="addForm.goods_weight"
+                type="number"
+              />
             </el-form-item>
-            <el-form-item label="商品数量" prop="goods_number">
-              <el-input v-model="addForm.goods_number" type="number"></el-input>
+            <el-form-item
+              label="商品数量"
+              prop="goods_number"
+            >
+              <el-input
+                v-model="addForm.goods_number"
+                type="number"
+              />
             </el-form-item>
-            <el-form-item label="商品分类" prop="goods_cat">
+            <el-form-item
+              label="商品分类"
+              prop="goods_cat"
+            >
               <el-cascader
                 v-model="addForm.goods_cat"
                 :options="catelist"
                 :props="goodsCateProps"
                 expand-trigger="hover"
-                @change="handleChange"
                 clearable
-              ></el-cascader>
+                @change="handleChange"
+              />
             </el-form-item>
           </el-tab-pane>
-          <el-tab-pane label="商品参数" name="1">
+          <el-tab-pane
+            label="商品参数"
+            name="1"
+          >
             <el-form-item
-              :label="item.attr_name"
-              prop="goods_name"
               v-for="item in manyTableData"
               :key="item.attr_id"
+              :label="item.attr_name"
+              prop="goods_name"
             >
               <el-checkbox-group v-model="item.attr_vals">
                 <el-checkbox
-                  :label="item2"
                   v-for="(item2, i) in item.attr_vals"
                   :key="i"
+                  :label="item2"
                   border
-                ></el-checkbox>
+                />
               </el-checkbox-group>
             </el-form-item>
           </el-tab-pane>
-          <el-tab-pane label="商品属性" name="2">
+          <el-tab-pane
+            label="商品属性"
+            name="2"
+          >
             <el-form-item
               v-for="item in onlyTableData"
               :key="item.attr_id"
               :label="item.attr_name"
             >
               <el-input
-                placeholder="请输入内容"
                 v-model="item.attr_vals"
+                placeholder="请输入内容"
                 clearable
-              >
-              </el-input>
+              />
             </el-form-item>
           </el-tab-pane>
-          <el-tab-pane label="商品图片" name="3">
+          <el-tab-pane
+            label="商品图片"
+            name="3"
+          >
             <el-upload
               :action="picUploadURL"
               list-type="picture-card"
@@ -96,204 +134,221 @@
               :on-success="uploadSuccess"
               :headers="headerObj"
             >
-              <i class="el-icon-plus"></i>
+              <i class="el-icon-plus" />
             </el-upload>
           </el-tab-pane>
-          <el-tab-pane label="商品内容" name="4">
+          <el-tab-pane
+            label="商品内容"
+            name="4"
+          >
             <!--富文本编辑器-->
-            <quill-editor ref="quillEditor" v-model="addForm.goods_introduce" />
+            <quill-editor
+              ref="quillEditor"
+              v-model="addForm.goods_introduce"
+            />
           </el-tab-pane>
-          <el-button type="primary" @click="addGoods">添加商品</el-button>
+          <el-button
+            type="primary"
+            @click="addGoods"
+          >
+            添加商品
+          </el-button>
         </el-tabs>
       </el-form>
     </el-card>
     <!--预览图片对话框-->
-    <el-dialog :visible.sync="picPreviewDialogVisible" width="50%">
-      <img :src="picPreviewURL" class="pic_preview" />
+    <el-dialog
+      :visible.sync="picPreviewDialogVisible"
+      width="50%"
+    >
+      <img
+        :src="picPreviewURL"
+        class="pic_preview"
+      >
     </el-dialog>
   </div>
 </template>
 <script>
-import _ from "lodash";
+import _ from 'lodash'
 export default {
-  data() {
+  data () {
     return {
-      //激活的标签索引
-      activeIndex: "0",
+      // 激活的标签索引
+      activeIndex: '0',
       addForm: {
-        goods_name: "",
+        goods_name: '',
         goods_cat: [],
-        goods_price: "",
-        goods_number: "",
-        goods_weight: "",
-        goods_introduce: "",
+        goods_price: '',
+        goods_number: '',
+        goods_weight: '',
+        goods_introduce: '',
         pics: [],
-        attrs: [],
+        attrs: []
       },
       addFormRules: {
         goods_name: [
-          { required: true, message: "请输入商品名称", trigger: "blur" },
+          { required: true, message: '请输入商品名称', trigger: 'blur' }
         ],
         goods_price: [
-          { required: true, message: "请输入商品价格", trigger: "blur" },
+          { required: true, message: '请输入商品价格', trigger: 'blur' }
         ],
         goods_weight: [
-          { required: true, message: "请输入商品重量", trigger: "blur" },
+          { required: true, message: '请输入商品重量', trigger: 'blur' }
         ],
         goods_number: [
-          { required: true, message: "请输入商品数量", trigger: "blur" },
+          { required: true, message: '请输入商品数量', trigger: 'blur' }
         ],
         goods_cat: [
-          { required: true, message: "请选择商品分类", trigger: "blur" },
-        ],
+          { required: true, message: '请选择商品分类', trigger: 'blur' }
+        ]
       },
-      //商品分类
+      // 商品分类
       catelist: [],
       goodsCateProps: {
-        label: "cat_name",
-        value: "cat_id",
-        children: "children",
+        label: 'cat_name',
+        value: 'cat_id',
+        children: 'children'
       },
       manyTableData: [],
       onlyTableData: [],
-      //图片上传
-      picUploadURL: "http://127.0.0.1:8888/api/private/v1/upload",
-      headerObj: { Authorization: window.sessionStorage.getItem("token") },
+      // 图片上传
+      picUploadURL: 'http://127.0.0.1:8888/api/private/v1/upload',
+      headerObj: { Authorization: window.sessionStorage.getItem('token') },
       picPreviewDialogVisible: false,
-      picPreviewURL: "",
-    };
-  },
-  created() {
-    this.getCateList();
+      picPreviewURL: ''
+    }
   },
   computed: {
-    cateId() {
+    cateId () {
       if (this.addForm.goods_cat.length === 3) {
-        return this.addForm.goods_cat[2];
+        return this.addForm.goods_cat[2]
       }
-      return null;
-    },
+      return null
+    }
+  },
+  created () {
+    this.getCateList()
   },
   methods: {
-    //获取商品分类列表
-    getCateList() {
+    // 获取商品分类列表
+    getCateList () {
       this.$http
-        .get("categories", { params: 3 })
+        .get('categories', { params: 3 })
         .then(({ data: res }) => {
           if (res.meta.status !== 200) {
-            return this.$message.error("获取商品分类列表失败");
+            return this.$message.error('获取商品分类列表失败')
           }
-          this.catelist = res.data;
+          this.catelist = res.data
         })
-        .catch((error) => error);
+        .catch((error) => error)
     },
-    handleChange() {
-      if (this.addForm.goods_cat.length != 3) {
-        this.addForm.goods_cat = [];
-        return;
+    handleChange () {
+      if (this.addForm.goods_cat.length !== 3) {
+        this.addForm.goods_cat = []
+        return
       }
     },
-    beforeTabsLeave(activeName, oldActiveName) {
-      if (oldActiveName == 0 && this.addForm.goods_cat.length != 3) {
-        this.$message.error("请先选择商品分类");
-        return false;
+    beforeTabsLeave (activeName, oldActiveName) {
+      if (oldActiveName === 0 && this.addForm.goods_cat.length !== 3) {
+        this.$message.error('请先选择商品分类')
+        return false
       }
     },
-    //获取参数分类属性列表
-    getParamsCate(type) {
+    // 获取参数分类属性列表
+    getParamsCate (type) {
       this.$http
         .get(`categories/${this.cateId}/attributes`, {
-          params: { sel: type },
+          params: { sel: type }
         })
         .then(({ data: res }) => {
-          console.log(res);
+          console.log(res)
           if (res.meta.status !== 200) {
-            return this.$message.error(res.meta.msg);
+            return this.$message.error(res.meta.msg)
           }
 
-          if (type === "many") {
+          if (type === 'many') {
             res.data.forEach((item) => {
-              item.attr_vals = item.attr_vals ? item.attr_vals.split(" ") : [];
-            });
+              item.attr_vals = item.attr_vals ? item.attr_vals.split(' ') : []
+            })
 
-            this.manyTableData = res.data;
+            this.manyTableData = res.data
           } else {
-            this.onlyTableData = res.data;
+            this.onlyTableData = res.data
           }
         })
-        .catch((error) => error);
+        .catch((error) => error)
     },
-    //tab点击事件
-    tabClick() {
-      if (this.activeIndex === "1") {
-        //商品参数
-        this.getParamsCate("many");
-      } else if (this.activeIndex === "2") {
-        //商品属性
-        this.getParamsCate("only");
+    // tab点击事件
+    tabClick () {
+      if (this.activeIndex === '1') {
+        // 商品参数
+        this.getParamsCate('many')
+      } else if (this.activeIndex === '2') {
+        // 商品属性
+        this.getParamsCate('only')
       }
     },
-    //图片上传
-    uploadSuccess(response) {
-      let tempObj = { pic: response.data.tmp_path };
-      this.addForm.pics.push(tempObj);
+    // 图片上传
+    uploadSuccess (response) {
+      const tempObj = { pic: response.data.tmp_path }
+      this.addForm.pics.push(tempObj)
     },
-    //图片预览
-    handlePictureCardPreview(file) {
-      this.picPreviewURL = file.response.data.url;
-      this.picPreviewDialogVisible = true;
+    // 图片预览
+    handlePictureCardPreview (file) {
+      this.picPreviewURL = file.response.data.url
+      this.picPreviewDialogVisible = true
     },
-    //图片移除
-    handleRemove(file) {
-      //先找到要删除的图片在pic中的index，然后通过splice删除
-      let tmpPath = file.response.data.tmp_path;
-      let index = this.addForm.pics.findIndex((x) => {
-        x.pic === tmpPath;
-      });
-      this.addForm.pics.splice(index, 1);
+    // 图片移除
+    handleRemove (file) {
+      // 先找到要删除的图片在pic中的index，然后通过splice删除
+      const tmpPath = file.response.data.tmp_path
+      const index = this.addForm.pics.findIndex((x) => {
+        x.pic === tmpPath
+      })
+      this.addForm.pics.splice(index, 1)
     },
 
-    //添加商品
-    addGoods() {
+    // 添加商品
+    addGoods () {
       this.$refs.addFormRef.validate((valid) => {
         if (!valid) {
-          return this.$message.error("请填写相关必填项！");
+          return this.$message.error('请填写相关必填项！')
         }
-        let copyForm = _.cloneDeep(this.addForm);
-        copyForm.goods_cat = copyForm.goods_cat.join(",");
-        let attrsPush = [];
+        const copyForm = _.cloneDeep(this.addForm)
+        copyForm.goods_cat = copyForm.goods_cat.join(',')
+        const attrsPush = []
         this.manyTableData.forEach((item) => {
-          let attrsInfo = {
+          const attrsInfo = {
             attr_id: item.attr_id,
-            attr_value: item.attr_vals.join(" "),
-          };
+            attr_value: item.attr_vals.join(' ')
+          }
 
-          attrsPush.push(attrsInfo);
-        });
+          attrsPush.push(attrsInfo)
+        })
         this.onlyTableData.forEach((item) => {
-          let attrsInfo = {
+          const attrsInfo = {
             attr_id: item.attr_id,
-            attr_value: item.attr_vals,
-          };
+            attr_value: item.attr_vals
+          }
 
-          attrsPush.push(attrsInfo);
-        });
-        copyForm.attrs = attrsPush;
-        console.log(copyForm);
+          attrsPush.push(attrsInfo)
+        })
+        copyForm.attrs = attrsPush
+        console.log(copyForm)
         this.$http
-          .post("goods", copyForm)
+          .post('goods', copyForm)
           .then(({ data: res }) => {
-            console.log(res.data);
+            console.log(res.data)
             if (res.meta.status !== 201) {
-              return this.$message.error(res.meta.msg);
+              return this.$message.error(res.meta.msg)
             }
-            this.$router.push("/goods");
+            this.$router.push('/goods')
           })
-          .catch((error) => error);
-      });
-    },
-  },
-};
+          .catch((error) => error)
+      })
+    }
+  }
+}
 </script>
 <style lang="less" scoped>
 .el-tabs {
